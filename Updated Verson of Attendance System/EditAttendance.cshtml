@@ -1,0 +1,89 @@
+@page
+@model EditAttendanceModel
+@{
+    ViewData["Title"] = "Edit Attendance";
+}
+
+<div class="text-center mb-4">
+    <h1 class="display-4">Edit Attendance</h1>
+    <p class="lead">Update attendance status</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form method="post">
+            <input type="hidden" asp-for="Attendance.Id" />
+            <input type="hidden" asp-for="Attendance.StudentId" />
+            <input type="hidden" asp-for="Attendance.FullName" />
+            <input type="hidden" asp-for="Attendance.Section" />
+            <input type="hidden" asp-for="Attendance.Date" />
+
+            <div class="card" style="border: 1px solid #dee2e6;">
+                <div class="card-header" style="background-color: white; border-bottom: 1px solid #dee2e6;">
+                    <h3 style="font-weight: normal;">Attendance Details</h3>
+                </div>
+                <div class="card-body" style="background-color: white;">
+                    <div class="mb-3">
+                        <label class="form-label" style="font-weight: bold;">Student Name:</label>
+                        <p>@Model.Attendance.FullName</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" style="font-weight: bold;">Student ID:</label>
+                        <p>@Model.Attendance.StudentId</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" style="font-weight: bold;">Section:</label>
+                        <p>@Model.Attendance.Section</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" style="font-weight: bold;">Date:</label>
+                        <p>@Model.Attendance.Date.ToString("MMMM dd, yyyy")</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" style="font-weight: bold;">Current Status:</label>
+                        <p style="color: @(Model.Attendance.Status == "Present" ? "green" : "red");">
+                            @Model.Attendance.Status
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Update Status:</label>
+                        <div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" asp-for="Attendance.Status" value="Present" id="present" />
+                                <label class="form-check-label" for="present">Present</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" asp-for="Attendance.Status" value="Absent" id="absent" />
+                                <label class="form-check-label" for="absent">Absent</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn" style="background-color: white; border: 1px solid #dee2e6; color: black;">Save Changes</button>
+                        <a href="/Record" class="btn" style="background-color: white; border: 1px solid #dee2e6; color: black;">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert mt-3" role="alert" style="background-color: white; border: 1px solid #dee2e6; color: green;">
+                @TempData["Message"]
+            </div>
+        }
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert mt-3" role="alert" style="background-color: white; border: 1px solid #dee2e6; color: red;">
+                @TempData["Error"]
+            </div>
+        }
+    </div>
+</div>
