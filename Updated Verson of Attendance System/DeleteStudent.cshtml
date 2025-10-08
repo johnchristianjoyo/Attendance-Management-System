@@ -1,0 +1,48 @@
+@page
+@model DeleteStudentModel
+@{
+    ViewData["Title"] = "Delete Student";
+}
+
+<div class="text-center mb-4">
+    <h1 class="display-4">Delete Student</h1>
+    <p class="lead" style="color: red;">Warning: This action cannot be undone</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card" style="border: 1px solid #dee2e6;">
+            <div class="card-header" style="background-color: white; border-bottom: 1px solid #dee2e6;">
+                <h3 style="font-weight: normal;">Student Details</h3>
+            </div>
+            <div class="card-body" style="background-color: white;">
+                <div class="mb-3">
+                    <label class="form-label" style="font-weight: bold;">Full Name:</label>
+                    <p>@Model.Student.FullName</p>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" style="font-weight: bold;">Section:</label>
+                    <p>@Model.Student.Section</p>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" style="font-weight: bold;">Student ID:</label>
+                    <p>@Model.Student.StudentId</p>
+                </div>
+
+                <div class="alert" role="alert" style="background-color: white; border: 1px solid red; color: red;">
+                    <strong>Warning:</strong> If you delete this student's details, it will be removed from the list permanently.
+                </div>
+
+                <form method="post">
+                    <input type="hidden" asp-for="Student.Id" />
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn" style="background-color: white; border: 1px solid red; color: red;">Delete Student</button>
+                        <a href="/Attendances" class="btn" style="background-color: white; border: 1px solid #dee2e6; color: black;">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
