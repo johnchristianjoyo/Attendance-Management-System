@@ -1,0 +1,111 @@
+@page
+@model RecordModel
+@{
+    ViewData["Title"] = "Attendance Records";
+}
+
+<div class="text-center mb-4">
+    <h1 class="display-4">Attendance Records</h1>
+    <p class="lead">Complete history of student attendance</p>
+</div>
+
+@if (Model.AttendanceRecords.Any())
+{
+    <div class="card" style="border: 1px solid #dee2e6;">
+        <div class="card-header" style="background-color: white; border-bottom: 1px solid #dee2e6;">
+            <h3 style="font-weight: normal;">Attendance History</h3>
+            <p class="mb-0">Total Records: @Model.AttendanceRecords.Count</p>
+        </div>
+        <div class="card-body" style="background-color: white;">
+            <div class="table-responsive">
+                <table class="table" style="background-color: white;">
+                    <thead style="background-color: white;">
+                        <tr>
+                            <th style="font-weight: normal;">Date</th>
+                            <th style="font-weight: normal;">Student ID</th>
+                            <th style="font-weight: normal;">Full Name</th>
+                            <th style="font-weight: normal;">Section</th>
+                            <th style="font-weight: normal;">Status</th>
+                            <th style="font-weight: normal;">Marked At</th>
+                        </tr>
+                    </thead>
+                    <tbody style="background-color: white;">
+                        @foreach (var record in Model.AttendanceRecords)
+                        {
+                            <tr style="background-color: white;">
+                                <td>@record.Date.ToString("MMMM dd, yyyy")</td>
+                                <td>@record.StudentId</td>
+                                <td>@record.FullName</td>
+                                <td>@record.Section</td>
+                                <td>
+                                    @if (record.Status == "Present")
+                                    {
+                                        <span style="color: green; font-weight: normal;">✓ Present</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color: red; font-weight: normal;">✗ Absent</span>
+                                    }
+                                </td>
+                                <td>@record.MarkedAt.ToLocalTime().ToString("hh:mm tt")</td>
+                                <td>
+                                    <a href="/EditAttendance?id=@record.Id" class="btn btn-sm" style="background-color: white; border: 1px solid #dee2e6; color: black;">Edit</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Statistics -->
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card" style="border: 1px solid #dee2e6;">
+                <div class="card-body text-center" style="background-color: white;">
+                    <h5 style="font-weight: normal;">Total Records</h5>
+                    <h2 style="font-weight: normal;">@Model.AttendanceRecords.Count</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" style="border: 1px solid #dee2e6;">
+                <div class="card-body text-center" style="background-color: white;">
+                    <h5 style="font-weight: normal; color: green;">Present</h5>
+                    <h2 style="font-weight: normal; color: green;">@Model.PresentCount</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" style="border: 1px solid #dee2e6;">
+                <div class="card-body text-center" style="background-color: white;">
+                    <h5 style="font-weight: normal; color: red;">Absent</h5>
+                    <h2 style="font-weight: normal; color: red;">@Model.AbsentCount</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert mt-3" role="alert" style="background-color: white; border: 1px solid #dee2e6; color: green;">
+            @TempData["Message"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert mt-3" role="alert" style="background-color: white; border: 1px solid #dee2e6; color: red;">
+            @TempData["Error"]
+        </div>
+    }
+}
+else
+{
+    <div class="alert" role="alert" style="background-color: white; border: 1px solid #dee2e6; color: black;">
+        <h4>No Attendance Records Found</h4>
+        <p>No attendance has been marked yet.</p>
+        <a href="/Attendances" class="btn" style="background-color: white; border: 1px solid #dee2e6; color: black;">Mark Attendance</a>
+    </div>
+}
